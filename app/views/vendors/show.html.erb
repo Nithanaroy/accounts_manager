@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Number:</b>
+  <%= @vendor.number %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @vendor.name %>
+</p>
+
+<p>
+  <b>Pending amount:</b>
+  <%= @vendor.pending_amount %>
+</p>
+
+
+<%= link_to 'Edit', edit_vendor_path(@vendor) %> |
+<%= link_to 'Back', vendors_path %>
