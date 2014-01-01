@@ -4,10 +4,10 @@ one:
   acc_number: 
   vendor_acc_number: 1
   amount: 1.5
-  payment_date: 2014-01-01 13:02:11
+  payment_date: 2014-01-01 13:14:14
 
 two:
   acc_number: 
   vendor_acc_number: 1
   amount: 1.5
-  payment_date: 2014-01-01 13:02:11
+  payment_date: 2014-01-01 13:14:14

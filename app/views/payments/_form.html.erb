@@ -1,0 +1,180 @@
+
+<script type="text/javascript">
+
+  $(function() {
+    $(".payments .datepicker").datepicker("destroy").datepicker({ minDate: new Date(), defaultDate: +7 });
+
+    var available_accounts = <%= raw @accounts.map { |a| a.number }.to_json %>;
+    attach_multi_autocomplete(available_accounts, "div.myaccounts_panel", ".my_accounts", ".acc_number", "input.account_amt");
+
+    var available_vendor_accounts = <%= raw @vendors.map { |a| a.number }.to_json %>;
+    attach_multi_autocomplete(available_vendor_accounts, "div.myvendor_panel", ".my_vendors", ".vendor_acc_number", "input.vendor_amount");
+
+    function attach_multi_autocomplete(tags, panel_selector, textbox_selector, acc_number_row_selector, input_amount_selector) {
+      $(".payments " + textbox_selector)
+      .bind( "keydown", function( event ) {
+        if ( event.keyCode === $.ui.keyCode.TAB &&
+            $( this ).data( "ui-autocomplete" ).menu.active ) {
+          event.preventDefault();
+        }
+      })
+      .autocomplete({ 
+        source: function( request, response ) {
+            // delegate back to autocomplete, but extract the last term
+            response( $.ui.autocomplete.filter(
+              tags, extractLast( request.term ) ) );
+          },
+          focus: function() {
+            // prevent value inserted on focus
+            return false;
+          },
+          select: function( event, ui ) {
+            var terms = split( this.value );
+            // remove the current input
+            terms.pop();
+            // add the selected item
+            terms.push( ui.item.value );
+            // add placeholder to get the comma-and-space at the end
+            terms.push( "" );
+            this.value = terms.join( ", " );
+
+            var selected_panels = highlight_the_selected_panels(event);
+            enable_amount_field(selected_panels);
+
+            return false;
+          }
+      });
+
+      $(".payments input.account_amt").bind('keyup', function(event) {
+        var total = 0;
+        $(".payments input.account_amt:enabled").each(function(index, textbox) {
+          total += parseInt($(textbox).val());
+        });
+        $(".payments #payment_amount").val(total);
+      });
+
+      // Highlights the selected panels and returns their references
+      function highlight_the_selected_panels(event) {
+        var selected_panels = [];
+        var numbers = event.target.value.split(",");
+        $('.payments').find(panel_selector).removeClass('panel-success');
+        $(numbers).each(function(index, value) {
+          value = value.trim();
+          $(".payments " + acc_number_row_selector).each(function() {
+            if(value == $(this).text().trim()) {
+              var panel = $(this).closest('div.panel');
+              $(panel).children("div.panel-body").show(animation_time);
+              selected_panels.push(panel);
+              $(panel).addClass('panel-success');
+            }
+          });
+        });
+        return selected_panels;
+      }
+
+      // enables the amount fields for the passed panels
+      function enable_amount_field(panels) {
+        $(input_amount_selector).attr({disabled: true});
+        $(panels).each(function(index, panel) {
+          $(panel).find(input_amount_selector).attr({disabled: false});
+        });
+      }
+
+      function split( val ) {
+        return val.split( /,\s*/ );
+      }
+      
+      function extractLast( term ) {
+        return split( term ).pop();
+      }
+    }
+
+    var animation_time = 300; // milliseconds
+    $(".payments #expand").click(function() {
+      $(".payments div.myaccounts_panel").children("div.panel-body").show(animation_time);
+      $(".payments div.myvendor_panel").children("div.panel-body").show(animation_time);
+    });
+
+    $(".payments #collapse").click(function() {
+      $(".payments div.myaccounts_panel").children("div.panel-body").hide(animation_time);
+      $(".payments div.myvendor_panel").children("div.panel-body").hide(animation_time);
+    });
+
+    $(".payments div.panel-heading").click(function() {
+      $(this).siblings("div.panel-body").toggle(animation_time);
+    })
+
+  });
+
+</script>
+
+<div class="payments">
+  <%= form_for(@payment) do |f| %>
+    <% if @payment.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@payment.errors.count, "error") %> prohibited this payment from being saved:</h2>
+
+        <ul>
+        <% @payment.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <button type="button" class="btn btn-link" id="collapse">Collapse All</button>
+    <button type="button" class="btn btn-link" id="expand">Expand All</button>
+
+    <table class='table table-responsive'>
+      <thead>
+        <tr>
+          <th style="text-align: center;">My Accounts</th>
+          <th></th>
+          <th style="text-align: center;">My Vendors</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td style="width: 33%">
+          <!-- Accounts -->
+          <% @accounts.each do |account| %>
+            <%= render partial: "accounts/account_card", locals: {account: account, show_amount_box: true} %>
+          <% end %>
+        </td>
+
+        <td style="width: 33%">
+          <!-- Buttons -->
+          <div class="form-group">
+            <%= f.label :acc_number, 'Your Account Number(s)' %><br />
+            <%= f.text_field :acc_number, :class => 'my_accounts form-control', :autofocus => true %>
+          </div>
+          <div class="form-group">
+            <%= f.label :vendor_acc_number, 'Vendor Account Number(s)' %><br />
+            <%= f.text_field :vendor_acc_number, :class => 'my_vendors form-control' %>
+          </div>
+          <div class="form-group">
+            <%= f.label :amount %> <small><em>(Use the selected account(s) to autofill this)</em></small><br />
+            <%= f.text_field :amount, :class => 'form-control', :readonly => true %>
+          </div>
+          <div class="form-group">
+            <%= f.label :payment_date %><br />
+            <%= f.text_field :payment_date, :class => 'datepicker form-control' %>
+          </div>
+          <div class="actions">
+            <%= f.submit 'Pay', :class => 'btn btn-primary' %>
+          </div>
+        </td>
+
+        <td style="width: 33%">
+          <!-- Vendors -->
+          <% @vendors.each do |vendor| %>
+            <%= render partial: "vendors/vendor_card", locals: {vendor: vendor, show_amount_box: true} %>
+          <% end %>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    
+    
+  <% end %>
+</div>

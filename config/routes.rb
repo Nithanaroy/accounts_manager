@@ -1,4 +1,7 @@
 AccountsManager::Application.routes.draw do
+  resources :payments
+
+
   resources :vendors
 
 

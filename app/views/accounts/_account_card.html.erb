@@ -1,0 +1,38 @@
+<!-- Lists all the details of the account passed in a card format -->
+
+<div class="panel panel-default myaccounts_panel">
+  <div class="panel-heading"><%= account.name %></div>
+  <div class="panel-body">
+    <table class='table table-responsive table-condensed table-striped' style="margin-bottom: 0">
+		<tbody>
+			<tr>
+			  <td>Name</td>
+			  <td><%= account.name %></td>
+			</tr>
+			<tr>
+			  <td>Number</td>
+			  <td class="acc_number"><%= account.number %></td>
+			</tr>
+			<tr>
+			  <td>Balance</td>
+			  <td><%= account.balance %></td>
+			</tr>
+			<tr>
+			  <td>Type</td>
+			  <td><%= account.acc_type %></td>
+			</tr>
+			<tr>
+			  <td>Post Dated</td>
+			  <td><%= account.post_dated %></td>
+			</tr>
+		</tbody>
+	</table>
+  </div>
+  <% if show_amount_box %>
+  <div class="panel-footer">
+  	<div class="form-group" title="Amount from this account" style="margin-bottom: 0">
+	  <input type="text" class="form-control account_amt" placeholder="Amount from this account" disabled>
+	</div>
+  </div>
+  <% end %>
+</div>

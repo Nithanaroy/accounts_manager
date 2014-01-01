@@ -11,24 +11,33 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140101072613) do
+ActiveRecord::Schema.define(:version => 20140101094245) do
 
-  create_table "accounts", :force => true do |t|
-    t.integer  "number",                            :null => false
-    t.string   "name",                              :null => false
-    t.float    "balance",    :default => 0.0
-    t.string   "type",       :default => "SAVINGS"
-    t.float    "post_dated", :default => 0.0
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
+  create_table "Accounts", :force => true do |t|
+    t.string   "number",     :limit => 12,                        :null => false
+    t.string   "name",                                            :null => false
+    t.float    "balance",                  :default => 0.0
+    t.string   "acc_type",                 :default => "SAVINGS"
+    t.float    "post_dated",               :default => 0.0
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
   end
 
-  create_table "vendors", :force => true do |t|
-    t.integer  "number",                          :null => false
-    t.string   "name",                            :null => false
-    t.float    "pending_amount", :default => 0.0
+  create_table "Payments", :force => true do |t|
+    t.string   "acc_number",        :limit => 12, :null => false
+    t.string   "vendor_acc_number", :limit => 12, :null => false
+    t.float    "amount"
+    t.datetime "payment_date",                    :null => false
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
+  end
+
+  create_table "Vendors", :force => true do |t|
+    t.string   "number",         :limit => 12,                  :null => false
+    t.string   "name",                                          :null => false
+    t.float    "pending_amount",               :default => 0.0
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
   end
 
 end

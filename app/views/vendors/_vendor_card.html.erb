@@ -1,0 +1,36 @@
+<!-- Lists all the details of the vendor passed in a card format -->
+
+<div class="panel panel-default myvendor_panel">
+  <div class="panel-heading"><%= vendor.name %></div>
+  <div class="panel-body">
+	<table class='table table-responsive table-condensed table-striped' style='margin-bottom: 0'>
+		<!-- <thead>
+			<tr>
+				<th>Acc Name</th>
+				<th><%= vendor.name %></th>
+			</tr>
+		</thead> -->
+		<tbody>
+			<tr>
+			  <td>Name</td>
+			  <td><%= vendor.name %></td>
+			</tr>
+			<tr>
+			  <td>Account Number</td>
+			  <td class='vendor_acc_number'><%= vendor.number %></td>
+			</tr>
+			<tr>
+			  <td>Pending Amount</td>
+			  <td><%= vendor.pending_amount %></td>
+			</tr>
+		</tbody>
+	</table>
+  </div>
+  <% if show_amount_box %>
+  <div class="panel-footer">
+  	<div class="form-group" title="Amount to this account" style="margin-bottom: 0">
+	  <input type="text" class="form-control vendor_amount" placeholder="Amount to this account" disabled>
+	</div>
+  </div>
+  <% end %>
+</div>
