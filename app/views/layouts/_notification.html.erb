@@ -1,0 +1,6 @@
+<% if notice %>
+	<% css_class = {"info" => "alert-info", "success" => "alert-success", "warning" => "alert-warning", 
+		"danger" => "alert-danger"} %>
+	<% reqd_class ||= 'info' %>
+	<p id="notice" class="alert <%= css_class[reqd_class] || css_class['info'] %>"><%= notice %></p>
+<% end %>

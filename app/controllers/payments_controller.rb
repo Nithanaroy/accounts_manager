@@ -2,8 +2,8 @@ class PaymentsController < ApplicationController
   # GET /payments
   # GET /payments.json
   def index
-    @payments = Payment.all
-
+    @payments = Payment.all 
+    @payments = Payment.where(:id => params[:ids]) if params[:ids]
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @payments }
@@ -42,17 +42,28 @@ class PaymentsController < ApplicationController
   # POST /payments
   # POST /payments.json
   def create
-    @payment = Payment.new(params[:payment])
-
-    respond_to do |format|
-      if @payment.save
-        format.html { redirect_to @payment, notice: 'Payment was successfully created.' }
-        format.json { render json: @payment, status: :created, location: @payment }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @payment.errors, status: :unprocessable_entity }
+    @payments = []
+    Payment.transaction do
+      vendor_acc = params[:vendor].keys.first # Assuming only vendor gets the payment
+      params[:account].each do |acc, amt|
+        amt = Integer(amt)
+        @payments << Payment.create!(:acc_number => acc, :vendor_acc_number => vendor_acc, :amount => amt, 
+            :payment_date => params[:payment][:payment_date])
+        Account.where(:number => acc).limit(1).first.add_balance(-amt)
+        Vendor.where(:number => vendor_acc).limit(1).first.add_pending_amount(-amt)
       end
+      redirect_to payments_url(:ids => @payments.map { |p| p.id }), notice: 'Payments successfully made.'
     end
+
+    # respond_to do |format|
+    #   if @payment.save
+    #     format.html { redirect_to @payment, notice: 'Payment was successfully created.' }
+    #     format.json { render json: @payment, status: :created, location: @payment }
+    #   else
+    #     format.html { render action: "new" }
+    #     format.json { render json: @payment.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PUT /payments/1

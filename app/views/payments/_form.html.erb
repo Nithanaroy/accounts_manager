@@ -102,7 +102,20 @@
 
     $(".payments div.panel-heading").click(function() {
       $(this).siblings("div.panel-body").toggle(animation_time);
-    })
+    });
+
+    $(".payments form#new_payment").submit(function(event) {
+      // event.preventDefault();
+      // var payments = {};
+      // var vendor_account_numbers = $(".payments input#payment_vendor_acc_number").val().split(",")
+      // $(vendor_account_numbers).each(function(index, acc_number) {
+      //   var amt = $(".payments div.myvendor_panel").filter("div[data-accnum="+acc_number.trim()+"]").find("input.vendor_amount").val()
+      //   amt = parseInt(amt);
+      //   if(!isNaN(a))
+      //     payments[acc_number.trim()] = parseInt(amt);
+      // });
+      // return false;
+    });
 
   });
 

@@ -1,6 +1,6 @@
 <!-- Lists all the details of the vendor passed in a card format -->
 
-<div class="panel panel-default myvendor_panel">
+<div class="panel panel-default myvendor_panel" data-accnum='<%= vendor.number %>'>
   <div class="panel-heading"><%= vendor.name %></div>
   <div class="panel-body">
 	<table class='table table-responsive table-condensed table-striped' style='margin-bottom: 0'>
@@ -29,7 +29,8 @@
   <% if show_amount_box %>
   <div class="panel-footer">
   	<div class="form-group" title="Amount to this account" style="margin-bottom: 0">
-	  <input type="text" class="form-control vendor_amount" placeholder="Amount to this account" disabled>
+	  <input type="text" class="form-control vendor_amount" name="vendor[<%= vendor.number %>]"
+	  		placeholder="Amount to this account" disabled>
 	</div>
   </div>
   <% end %>

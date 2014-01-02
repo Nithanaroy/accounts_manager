@@ -1,6 +1,6 @@
 <!-- Lists all the details of the account passed in a card format -->
 
-<div class="panel panel-default myaccounts_panel">
+<div class="panel panel-default myaccounts_panel" data-accnum='<%= account.number %>'>
   <div class="panel-heading"><%= account.name %></div>
   <div class="panel-body">
     <table class='table table-responsive table-condensed table-striped' style="margin-bottom: 0">
@@ -31,7 +31,8 @@
   <% if show_amount_box %>
   <div class="panel-footer">
   	<div class="form-group" title="Amount from this account" style="margin-bottom: 0">
-	  <input type="text" class="form-control account_amt" placeholder="Amount from this account" disabled>
+	  <input type="text" class="form-control account_amt" name="account[<%= account.number %>]"
+	  		placeholder="Amount from this account" disabled>
 	</div>
   </div>
   <% end %>
