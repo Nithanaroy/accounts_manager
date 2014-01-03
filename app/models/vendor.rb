@@ -1,5 +1,5 @@
 class Vendor < ActiveRecord::Base
-  attr_accessible :name, :number, :pending_amount
+  attr_accessible :name, :number, :pending_amount, :acc_name
 
   has_many :payments, :primary_key => "number", :foreign_key => "vendor_acc_number"
 

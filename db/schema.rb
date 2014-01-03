@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140101094245) do
+ActiveRecord::Schema.define(:version => 20140103055238) do
 
   create_table "Accounts", :force => true do |t|
     t.string   "number",     :limit => 12,                        :null => false
@@ -32,7 +32,8 @@ ActiveRecord::Schema.define(:version => 20140101094245) do
     t.datetime "updated_at",                      :null => false
   end
 
-  create_table "Vendors", :force => true do |t|
+  create_table "vendors", :force => true do |t|
+    t.string   "acc_name",                                      :null => false
     t.string   "number",         :limit => 12,                  :null => false
     t.string   "name",                                          :null => false
     t.float    "pending_amount",               :default => 0.0
