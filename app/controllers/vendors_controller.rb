@@ -80,4 +80,17 @@ class VendorsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # Get all payments for a vendors accounts
+  # GET /vendors/payments
+  # GET /vendors/payments.json
+  def payments
+    vendors = Vendor.where(:number => params[:acc_numbers])
+    @vendor_payments = vendors.each_with_object({}) { |v, p| p[v] = v.payments }
+    print @vendor_payments.inspect
+    respond_to do |format|
+      format.html { render :partial => 'payments' }
+      format.json { render json: @vendor_payments }
+    end
+  end
 end

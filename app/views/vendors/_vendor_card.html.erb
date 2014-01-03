@@ -1,7 +1,10 @@
 <!-- Lists all the details of the vendor passed in a card format -->
 
 <div class="panel panel-default myvendor_panel" data-accnum='<%= vendor.number %>'>
-  <div class="panel-heading"><%= vendor.name %></div>
+  <div class="panel-heading"><%= vendor.name %> 
+  	<button type="button" class="btn btn-primary btn-xs pull-right show_invoice">Show Invoices</button>
+  	<div class="clearfix"></div>
+  </div>
   <div class="panel-body">
 	<table class='table table-responsive table-condensed table-striped' style='margin-bottom: 0'>
 		<!-- <thead>

@@ -1,10 +1,7 @@
 AccountsManager::Application.routes.draw do
+  match 'vendors/payments' => 'vendors#payments'
   resources :payments
-
-
   resources :vendors
-
-
   resources :accounts
 
 

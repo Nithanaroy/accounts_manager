@@ -2,8 +2,11 @@ class PaymentsController < ApplicationController
   # GET /payments
   # GET /payments.json
   def index
-    @payments = Payment.all 
-    @payments = Payment.where(:id => params[:ids]) if params[:ids]
+    if params[:ids]
+      @payments = Payment.where(:id => params[:ids]) 
+    else
+      @payments = Payment.all   
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @payments }

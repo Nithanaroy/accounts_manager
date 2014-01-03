@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require bootstrap.min
 //= require jquery-ui-1.10.3.custom.min
+//= require jquery.scrollTo-min
 //= require_tree .

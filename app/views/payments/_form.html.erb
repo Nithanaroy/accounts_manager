@@ -104,19 +104,22 @@
       $(this).siblings("div.panel-body").toggle(animation_time);
     });
 
-    $(".payments form#new_payment").submit(function(event) {
-      // event.preventDefault();
-      // var payments = {};
-      // var vendor_account_numbers = $(".payments input#payment_vendor_acc_number").val().split(",")
-      // $(vendor_account_numbers).each(function(index, acc_number) {
-      //   var amt = $(".payments div.myvendor_panel").filter("div[data-accnum="+acc_number.trim()+"]").find("input.vendor_amount").val()
-      //   amt = parseInt(amt);
-      //   if(!isNaN(a))
-      //     payments[acc_number.trim()] = parseInt(amt);
-      // });
-      // return false;
-    });
+    $(".payments button.show_invoice").click(function(event) {
+      event.stopPropagation();
+      var data = $(this).closest("div.myvendor_panel").attr('data-accnum').trim();
+      $.ajax({
+        url: '/vendors/payments',
+        data: {acc_numbers: [data]},
+        success: function(data) {
+          $(".payments .vendor_invoices").html(data);
+          showNotice('Retrieved invoices of the vendor', 'success');
+          $.scrollTo('.payments div[name=vendor_invoices]', 800);
+        },
+        error: function(data) {
 
+        }
+      })
+    });
   });
 
 </script>
@@ -187,7 +190,6 @@
       </tr>
       </tbody>
     </table>
-    
-    
   <% end %>
+  <div class="vendor_invoices" name='vendor_invoices'></div>
 </div>

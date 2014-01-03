@@ -1,6 +1,17 @@
-<% if notice %>
-	<% css_class = {"info" => "alert-info", "success" => "alert-success", "warning" => "alert-warning", 
-		"danger" => "alert-danger"} %>
-	<% reqd_class ||= 'info' %>
-	<p id="notice" class="alert <%= css_class[reqd_class] || css_class['info'] %>"><%= notice %></p>
-<% end %>
+<% css_class = {"info" => "alert-info", "success" => "alert-success", "warning" => "alert-warning", 
+	"danger" => "alert-danger"} %>
+<% reqd_class ||= 'info' %>
+<script type="text/javascript">
+	// shows the notice passed
+	// notice_type: info, success, warning, danger
+	var css_class = <%= raw css_class.to_json %>
+	var notice_types = []
+	$.map(css_class, function(k, v) { notice_types.push(k) });
+	function showNotice(notice, notice_type) {
+		if(css_class[notice_type] == undefined) notice_type = 'info';
+		$("#notice").html(notice).removeClass(notice_types.join(" ")).addClass(css_class[notice_type]).show();
+	}
+</script>
+
+<p id="notice" class="alert <%= css_class[reqd_class] || css_class['info'] %>"
+	<%= 'style=display:none' unless notice %>><%= notice %></p>
