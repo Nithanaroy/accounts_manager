@@ -1,7 +1,9 @@
 <!-- Lists all the details of the vendor passed in a card format -->
+<!-- Dont include any scripts here as this view is generally looped -->
 
 <div class="panel panel-default myvendor_panel" data-accnum='<%= vendor.number %>'>
-  <div class="panel-heading"><%= vendor.name %> 
+  <div class="panel-heading">
+	<label class='vendor_toggle'><input type="radio" name='vendor_accounts[]' value='<%= vendor.number %>' /> <%= vendor.name %></label>
   	<button type="button" class="btn btn-primary btn-xs pull-right show_invoice">Show Invoices</button>
   	<div class="clearfix"></div>
   </div>
@@ -32,7 +34,8 @@
   <% if show_amount_box %>
   <div class="panel-footer">
   	<div class="form-group" title="Amount to this account" style="margin-bottom: 0">
-	  <input type="text" class="form-control vendor_amount" name="vendor[<%= vendor.number %>]"
+	  <input type="text" class="form-control vendor_amount" name="vendor_amts[<%= vendor.number %>]"
+	  		value='<%= params[:vendor_amts][vendor.number] if params[:vendor_amts] %>' 
 	  		placeholder="Amount to this account" disabled>
 	</div>
   </div>

@@ -1,7 +1,12 @@
 <!-- Lists all the details of the account passed in a card format -->
+<!-- Dont use any scripts here as this view is generally looped -->
 
 <div class="panel panel-default myaccounts_panel" data-accnum='<%= account.number %>'>
-  <div class="panel-heading"><%= account.name %></div>
+  <div class="panel-heading">
+  	<%= account.name %>
+  	<label class='pull-right acc_toggle'><input type="checkbox" name='user_accounts[]' value='<%= account.number %>' /> <small>use this account</small></label>
+  	<div class='clearfix'></div>
+  </div>
   <div class="panel-body">
     <table class='table table-responsive table-condensed table-striped' style="margin-bottom: 0">
 		<tbody>
@@ -31,7 +36,8 @@
   <% if show_amount_box %>
   <div class="panel-footer">
   	<div class="form-group" title="Amount from this account" style="margin-bottom: 0">
-	  <input type="text" class="form-control account_amt" name="account[<%= account.number %>]"
+	  <input type="text" class="form-control account_amt" name="account_amts[<%= account.number %>]"
+	  		value='<%= params[:account_amts][account.number] if params[:account_amts] %>' 
 	  		placeholder="Amount from this account" disabled>
 	</div>
   </div>

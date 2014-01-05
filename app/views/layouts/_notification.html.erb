@@ -1,5 +1,6 @@
 <% css_class = {"info" => "alert-info", "success" => "alert-success", "warning" => "alert-warning", 
 	"danger" => "alert-danger"} %>
+<% reqd_class ||= flash[:reqd_class] %>
 <% reqd_class ||= 'info' %>
 <script type="text/javascript">
 	// shows the notice passed
@@ -13,5 +14,5 @@
 	}
 </script>
 
-<p id="notice" class="alert <%= css_class[reqd_class] || css_class['info'] %>"
-	<%= 'style=display:none' unless notice %>><%= notice %></p>
+<div id="notice" class="alert <%= css_class[reqd_class] || css_class['info'] %>"
+	<%= 'style=display:none' unless notice %>><%= notice.html_safe if notice %></div>
