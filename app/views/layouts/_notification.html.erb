@@ -10,9 +10,12 @@
 	$.map(css_class, function(k, v) { notice_types.push(k) });
 	function showNotice(notice, notice_type) {
 		if(css_class[notice_type] == undefined) notice_type = 'info';
-		$("#notice").html(notice).removeClass(notice_types.join(" ")).addClass(css_class[notice_type]).show();
+		$("#notice-data").html(notice);
+		$("#notice").removeClass(notice_types.join(" ")).addClass(css_class[notice_type]).show();
 	}
 </script>
 
-<div id="notice" class="alert <%= css_class[reqd_class] || css_class['info'] %>"
-	<%= 'style=display:none' unless notice %>><%= notice.html_safe if notice %></div>
+<div  id="notice" class="alert <%= css_class[reqd_class] || css_class['info'] %>" <%= 'style=display:none' unless notice %>>
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+	<div id='notice-data'> <%= notice.html_safe if notice %> </div>
+</div>

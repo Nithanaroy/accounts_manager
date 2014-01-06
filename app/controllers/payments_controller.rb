@@ -106,6 +106,6 @@ class PaymentsController < ApplicationController
 
   def fetch_data
     @vendors = Vendor.all
-    @accounts = Account.all
+    @accounts = Account.order('balance DESC')
   end
 end

@@ -8,6 +8,14 @@ class Account < ActiveRecord::Base
   validates :balance, :name, :number, :post_dated, :acc_type, presence: true
   validates :balance, :post_dated, numericality:
 
+  def affective_balance
+    self.balance - self.post_dated
+  end
+
+  def affective_balance_display
+    number_to_currency(self.affective_balance)
+  end
+
   def balance_display
   	number_to_currency(self.balance)
   end

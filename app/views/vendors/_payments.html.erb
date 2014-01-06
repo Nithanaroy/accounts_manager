@@ -1,5 +1,5 @@
 <% @vendor_payments.each do |vendor, payments| %>
-	<div class="panel panel-primary" data-accnum='<%= vendor.number %>'>
+	<div class="panel panel-default" data-accnum='<%= vendor.number %>'>
 	  <div class="panel-heading"><%= vendor.name %></div>
 	  <div class="panel-body">
 		<%= render partial: "payments/list_of_payments", locals: {payments: vendor.payments} %>

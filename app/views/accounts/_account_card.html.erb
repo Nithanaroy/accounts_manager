@@ -3,7 +3,7 @@
 
 <div class="panel panel-default myaccounts_panel" data-accnum='<%= account.number %>'>
   <div class="panel-heading">
-  	<%= account.name %>
+  	<%= account.name %> / <small><%= account.acc_type %></small>
   	<label class='pull-right acc_toggle'><input type="checkbox" name='user_accounts[]' value='<%= account.number %>' /> <small>use this account</small></label>
   	<div class='clearfix'></div>
   </div>
@@ -18,17 +18,17 @@
 			  <td>Number</td>
 			  <td class="acc_number"><%= account.number %></td>
 			</tr>
-			<tr>
+			<tr <%= "class=high_balance" if account.balance > HIGH_BALANCE_ACCOUNT %>>
 			  <td>Balance</td>
 			  <td><%= account.balance_display %></td>
 			</tr>
 			<tr>
-			  <td>Type</td>
-			  <td><%= account.acc_type %></td>
-			</tr>
-			<tr>
 			  <td>Post Dated</td>
 			  <td><%= account.post_dated_display %></td>
+			</tr>
+			<tr>
+			  <td>Affective Balance</td>
+			  <td><%= account.affective_balance_display %></td>
 			</tr>
 		</tbody>
 	</table>

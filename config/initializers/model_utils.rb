@@ -22,7 +22,7 @@ module ModelUtils
       error_string = nil
     	if self.errors.any?
         # error_string += "<h3>#{ActiveSupport::Inflector.pluralize(self.errors.count, 'error')} prohibited this payment from being saved:</h3>"
-        error_string += "<h2>Correct the following error(s)</h2>"
+        error_string = "<h3>Correct the following error(s)</h3>"
         error_string += '<ul>'
         self.errors.full_messages.each { |msg| error_string += "<li>#{msg}</li>" }
         error_string += '</ul>'
