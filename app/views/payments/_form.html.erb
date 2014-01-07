@@ -144,17 +144,35 @@
         url: '/vendors/payments',
         data: {acc_numbers: [data]},
         success: function(data) {
-          // $(".payments .vendor_invoices").html(data);
-          $(".payments #vendor_invoices .modal-body").html(data);
-          $('.payments #vendor_invoices').modal()
-          showNotice('Retrieved invoices of the vendor', 'success');
-          // $.scrollTo('.payments div[name=vendor_invoices]', 800);
+          set_and_show_modal('Invoices', data, 'Retrieved invoices of the vendor', 'success')
         },
         error: function(data) {
-
+          showNotice('Oouch! Something wrong happened. We will work on it.', 'danger');
         }
       })
     });
+
+    $(".payments button.post_dated").click(function(event) {
+      event.stopPropagation();
+      var data = $(this).attr('data-accnum').trim();
+      $.ajax({
+        url: '/accounts/post_dated',
+        data: {acc_numbers: [data]},
+        success: function(data) {
+          set_and_show_modal('Post Dated Cheques', data, 'Retrieved post dated cheques', 'success')
+        },
+        error: function(data) {
+          showNotice('Oouch! Something wrong happened. We will work on it.', 'danger');
+        }
+      })
+    });
+
+    function set_and_show_modal(title, body, notice, notice_type) {
+      $(".payments #payments_modal .modal-title").text(title);
+      $(".payments #payments_modal .modal-body").html(body);
+      $('.payments #payments_modal').modal()
+      showNotice(notice, notice_type);
+    }
   });
 
 </script>
@@ -221,12 +239,12 @@
   </button> -->
 
   <!-- Modal -->
-  <div class="modal fade" id="vendor_invoices" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal fade" id="payments_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Invoices</h4>
+          <h4 class="modal-title" id='payments_modal_title'>Invoices</h4>
         </div>
         <div class="modal-body">
           ...

@@ -1,0 +1,11 @@
+<% @account_cheques.each do |account, cheques| %>
+	<div class="panel panel-default" data-accnum='<%= account.number %>'>
+	  <div class="panel-heading"><%= account.name %></div>
+	  <div class="panel-body">
+		<%= render partial: "cheques/listing_cheques", locals: {cheques: cheques, show_links: false} %>
+	  </div>
+	  <div class="panel-footer">
+	  	<p>Total <%= number_to_currency(account.post_dated) %></p>
+	  </div>
+	</div>
+<% end %>

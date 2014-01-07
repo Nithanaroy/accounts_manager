@@ -24,7 +24,8 @@
 			</tr>
 			<tr>
 			  <td>Post Dated</td>
-			  <td><%= account.post_dated_display %></td>
+			  <td><button type="button" class="btn btn-link post_dated" data-accnum='<%= account.number %>'>
+			  	<%= account.post_dated_display %></button></td>
 			</tr>
 			<tr>
 			  <td>Affective Balance</td>

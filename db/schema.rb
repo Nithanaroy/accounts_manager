@@ -11,17 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140103055238) do
-
-  create_table "Accounts", :force => true do |t|
-    t.string   "number",     :limit => 12,                        :null => false
-    t.string   "name",                                            :null => false
-    t.float    "balance",                  :default => 0.0
-    t.string   "acc_type",                 :default => "SAVINGS"
-    t.float    "post_dated",               :default => 0.0
-    t.datetime "created_at",                                      :null => false
-    t.datetime "updated_at",                                      :null => false
-  end
+ActiveRecord::Schema.define(:version => 20140107060622) do
 
   create_table "Payments", :force => true do |t|
     t.string   "acc_number",        :limit => 12, :null => false
@@ -30,6 +20,25 @@ ActiveRecord::Schema.define(:version => 20140103055238) do
     t.datetime "payment_date",                    :null => false
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
+  end
+
+  create_table "accounts", :force => true do |t|
+    t.string   "number",     :limit => 12,                        :null => false
+    t.string   "name",                                            :null => false
+    t.float    "balance",                  :default => 0.0
+    t.string   "acc_type",                 :default => "SAVINGS"
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
+  end
+
+  create_table "cheques", :force => true do |t|
+    t.string   "number",            :null => false
+    t.float    "amount",            :null => false
+    t.string   "acc_number",        :null => false
+    t.string   "vendor_acc_number", :null => false
+    t.datetime "dated_on",          :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   create_table "vendors", :force => true do |t|

@@ -80,4 +80,16 @@ class AccountsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # Get all post dated cheques for the accounts
+  # GET /vendors/payments
+  # GET /vendors/payments.json
+  def post_dated_cheques
+    accounts = Account.where(:number => params[:acc_numbers])
+    @account_cheques = accounts.each_with_object({}) { |a, c| c[a] = a.cheques }
+    respond_to do |format|
+      format.html { render :partial => 'post_dated' }
+      format.json { render json: @account_cheques }
+    end
+  end
 end

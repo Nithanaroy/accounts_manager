@@ -1,5 +1,9 @@
 AccountsManager::Application.routes.draw do
+  resources :cheques
+
+
   match 'vendors/payments' => 'vendors#payments'
+  match 'accounts/post_dated' => 'accounts#post_dated_cheques'
   resources :payments
   resources :vendors
   resources :accounts

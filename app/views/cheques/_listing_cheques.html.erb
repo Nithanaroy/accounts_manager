@@ -1,0 +1,30 @@
+<% show_links = true if show_links.nil? %>
+<table class='table table-striped table-hover table-responsive'>
+  <tr>
+    <th>Number</th>
+    <th>Amount</th>
+    <th>Acc number</th>
+    <th>Vendor acc number</th>
+    <th>Dated on</th>
+    <% if show_links %>
+        <th></th>
+        <th></th>
+        <th></th>
+    <% end %>
+  </tr>
+
+<% cheques.each do |cheque| %>
+  <tr>
+    <td><%= cheque.number %></td>
+    <td><%= cheque.amount_display %></td>
+    <td><%= cheque.acc_number %></td>
+    <td><%= cheque.vendor_acc_number %></td>
+    <td><%= cheque.dated_on.to_formatted_s(:date_time_weekday) %></td>
+    <% if show_links %>
+        <td><%= link_to 'Show', cheque %></td>
+        <td><%= link_to 'Edit', edit_cheque_path(cheque) %></td>
+        <td><%= link_to 'Destroy', cheque, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% end %>
+  </tr>
+<% end %>
+</table>
