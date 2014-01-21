@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
 	def set_layout_variables
 		@navigation_links = [
-					{:controller => 'accounts', :content => 'Accounts'}, 
+					{:controller => 'accounts', :content => 'My Accounts'}, 
 					{:controller => 'vendors', :content => 'Vendors'}, 
 					{:controller => 'payments', :content => 'Payments'}, 
 					{:controller => 'cheques', :content => 'Cheques'}]
