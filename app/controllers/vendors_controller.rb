@@ -86,7 +86,7 @@ class VendorsController < ApplicationController
   # GET /vendors/payments.json
   def payments
     vendors = Vendor.where(:number => params[:acc_numbers])
-    @vendor_payments = vendors.each_with_object({}) { |v, p| p[v] = v.payments }
+    @vendor_payments = vendors.each_with_object({}) { |v, p| p[v] = v.payments.order('payment_date DESC') }
     respond_to do |format|
       format.html { render :partial => 'payments' }
       format.json { render json: @vendor_payments }

@@ -101,12 +101,12 @@
       }
     }
 
-    $(".payments .vendor_toggle input[type=radio]").on('click' , function (event) {
+    $(".payments .vendor_toggle input[type=checkbox]").on('click' , function (event) {
       event.stopPropagation();
       var disable_amt = !$(this).prop('checked');
-      $('div.myvendor_panel').removeClass('panel-success').find('input.vendor_amount').attr('disabled', true).val(""); // disable all inputs
+      // $('div.myvendor_panel').removeClass('panel-success').find('input.vendor_amount').attr('disabled', true).val(""); // disable all inputs
       if(disable_amt)
-        $(this).closest('div.myvendor_panel').removeClass('panel-success').find('input.vendor_amount').attr('disabled', disable_amt);
+        $(this).closest('div.myvendor_panel').removeClass('panel-success').find('input.vendor_amount').attr('disabled', disable_amt).val('');
       else
         $(this).closest('div.myvendor_panel').addClass('panel-success').find('input.vendor_amount').attr('disabled', disable_amt);
     });

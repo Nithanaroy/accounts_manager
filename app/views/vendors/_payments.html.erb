@@ -2,7 +2,7 @@
 	<div class="panel panel-default" data-accnum='<%= vendor.number %>'>
 	  <div class="panel-heading"><%= vendor.name %></div>
 	  <div class="panel-body">
-		<%= render partial: "payments/list_of_payments", locals: {payments: vendor.payments} %>
+		<%= render partial: "payments/list_of_payments", locals: {payments: payments} %>
 	  </div>
 	  <div class="panel-footer">
 	  	<p>Total <%= number_to_currency(payments.sum { |p| p.amount }) %></p>

@@ -51,15 +51,23 @@ class PaymentsController < ApplicationController
     begin
       @payments = []
       Payment.transaction do
-        user_accounts = params[:user_accounts] || [nil]
-        vendor_acc = params[:vendor_accounts].first if params[:vendor_accounts] # Assuming only vendor gets the payment
-        user_accounts.each do |acc|
-          amt = params[:account_amts][acc] if params[:account_amts]
-          @payment = Payment.new(params[:payment].merge(:acc_number => acc, :vendor_acc_number => vendor_acc, :amount => amt))
-          @payment.save!
-          Account.where(:number => acc).limit(1).first.add_balance(-@payment.amount)
-          Vendor.where(:number => vendor_acc).limit(1).first.add_pending_amount(-@payment.amount)
-          @payments << @payment
+        user_accounts = params[:account_amts] || [nil]
+        vendor_accounts = params[:vendor_amts] || [nil]
+        vendor_accounts.each { |acc, amt| vendor_accounts[acc] = Integer(amt) }
+        user_accounts.each { |acc, amt| user_accounts[acc] = Integer(amt) }
+        vendor_accounts.each do |ven_acc, ven_amt|
+          user_accounts.each do |user_acc, user_amt|
+            break if ven_amt == 0
+            next if user_amt == 0
+            amt = user_amt >= ven_amt ? ven_amt : user_amt
+            ven_amt -= amt
+            user_accounts[user_acc] -= amt
+            @payment = Payment.new(params[:payment].merge(:acc_number => user_acc, :vendor_acc_number => ven_acc, :amount => amt))
+            @payment.save!
+            Account.where(:number => user_acc).limit(1).first.add_balance(-@payment.amount)
+            Vendor.where(:number => ven_acc).limit(1).first.add_pending_amount(-@payment.amount)
+            @payments << @payment
+          end
         end
       end
       redirect_to payments_url(:ids => @payments.map { |p| p.id }), notice: 'Payments successfully made.'
